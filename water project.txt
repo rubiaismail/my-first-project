@@ -1,0 +1,97 @@
+import java.util.*;
+
+// Singleton Pattern: Database Connection
+class DatabaseConnection {
+    private static DatabaseConnection instance;
+    private DatabaseConnection() {}
+    public static DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+    public void connect() {
+        System.out.println("Connected to the database.");
+    }
+}
+
+// Factory Pattern: Sensor Management
+abstract class WaterSensor {
+    abstract void monitorWaterFlow();
+}
+
+class HouseholdWaterSensor extends WaterSensor {
+    @Override
+    void monitorWaterFlow() {
+        System.out.println("Household water flow monitored.");
+    }
+}
+
+class BusinessWaterSensor extends WaterSensor {
+    @Override
+    void monitorWaterFlow() {
+        System.out.println("Business water flow monitored.");
+    }
+}
+
+class SensorFactory {
+    public static WaterSensor getSensor(String type) {
+        if (type.equalsIgnoreCase("household")) {
+            return new HouseholdWaterSensor();
+        } else if (type.equalsIgnoreCase("business")) {
+            return new BusinessWaterSensor();
+        }
+        return null;
+    }
+}
+
+// User Account Management
+class UserAccount {
+    private String username;
+    private String email;
+    public UserAccount(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
+    public void displayUser() {
+        System.out.println("User: " + username + ", Email: " + email);
+    }
+}
+
+// Report Generation
+class ReportGenerator {
+    public void generateReport() {
+        System.out.println("Generating water usage report...");
+    }
+}
+
+// Alert System
+class AlertSystem {
+    public void sendAlert(String message) {
+        System.out.println("ALERT: " + message);
+    }
+}
+
+// Main Class to Execute the System
+public class SmartWaterMonitoringSystem {
+    public static void main(String[] args) {
+        DatabaseConnection db = DatabaseConnection.getInstance();
+        db.connect();
+        
+        // Create Users
+        UserAccount user = new UserAccount("JohnDoe", "john@example.com");
+        user.displayUser();
+        
+        // Monitor Water Flow
+        WaterSensor sensor = SensorFactory.getSensor("household");
+        sensor.monitorWaterFlow();
+        
+        // Generate Report
+        ReportGenerator report = new ReportGenerator();
+        report.generateReport();
+        
+        // Send Alert
+        AlertSystem alert = new AlertSystem();
+        alert.sendAlert("High water usage detected!");
+    }
+}
